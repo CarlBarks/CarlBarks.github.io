@@ -341,7 +341,7 @@
 
 			//Width and height
 			//Width and height
-			var margin = {top: 20, right: 20, bottom: 30, left: 40},
+			var margin = {top: 20, right: 80, bottom: 30, left: 40},
 				w = 1024 - margin.left - margin.right,
 				h = 500 - margin.top - margin.bottom;
 				
@@ -376,6 +376,7 @@
 			var xAxis = d3.svg.axis()
 							  .scale(xScale)
 							  .orient("bottom")
+							  .tickFormat(function(d) { return d + ":00"; })
 							  .ticks(24,"%");
 
 			//Define Y axis
@@ -391,27 +392,6 @@
 							.attr("height", h + margin.top + margin.bottom)
 						.append("g")
 							.attr("transform", "translate(" + margin.left + "," + margin.top + ")");;
-						
-			svg.append("g")
-					.attr("class", "x axis")
-					.attr("transform", "translate(0," + h + ")")
-					.call(xAxis)
-				.append("text")
-					.attr("class", "label")
-					.attr("x", w)
-					.attr("y", 500 - margin.top - margin.bottom)
-					.style("text-anchor", "end")
-					.text("Hour of the Day");
-
-			svg.append("g")
-					.attr("class", "y axis")
-					.call(yAxis)
-				.append("text")
-				.attr("transform", "rotate(-90)")
-				.attr("y", 6)
-				.attr("dy", ".71em")
-				.style("text-anchor", "end")
-				.text("#Incidents");
 
 			//Create bars
 			svg.selectAll(".bar")
@@ -437,6 +417,27 @@
 			   .attr("fill", function(d) {
 					return "rgb(0, 0, " + d/7 + ")";
 			   });
+			   
+			svg.append("g")
+					.attr("class", "x axis")
+					.attr("transform", "translate(0," + h + ")")
+					.call(xAxis)
+				.append("text")
+					.attr("class", "label")
+					.attr("x", w)
+					.attr("y", -6)
+					.style("text-anchor", "top")
+					.text("Hour of the Day");
+
+			svg.append("g")
+					.attr("class", "y axis")
+					.call(yAxis)
+				.append("text")
+				.attr("transform", "rotate(-90)")
+				.attr("y", 6)
+				.attr("dy", ".71em")
+				.style("text-anchor", "end")
+				.text("#Incidents");
 
 			d3.selectAll("rect")
 				.on("mouseover", function(d) {
