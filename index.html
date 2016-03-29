@@ -58,7 +58,7 @@
 			}
 			
 			.bar:hover {
-				fill: #FFCC33;
+				fill: orange;
 			}
 
 		</style>
@@ -452,6 +452,10 @@
 
 			d3.selectAll("rect")
 				.on("mouseover", function(d) {
+				
+					d3.select(this)
+						.attr("fill", "orange");
+						
 					tooltip.transition()
 							.duration(200)
 							.style("opacity", 1)
@@ -464,6 +468,12 @@
 							.style("top", (d3.event.pageY - 58) + "px");
 				})
 				.on("mouseout", function(d) {
+				
+					d3.select(this)
+						.transition()
+						.duration(250)
+						.attr("fill", "rgb(0, 0, " + (d/7) + ")");
+	  
 					tooltip.transition()
 							.duration(500)
 							.style("opacity", 0);
@@ -513,7 +523,7 @@
 			}
 			
 			
-					// ** Update data section (Called from the onclick)
+		// ** Update data section (Called from the onclick)
 		function updateData(s) {
 
 			d3.csv(s, function(error, data) {
@@ -557,6 +567,28 @@
 								return "rgb(0,"+d/4+",0)";
 							}
 					   });
+					   
+				d3.selectAll("rect")
+				.on("mouseout", function(d) {
+
+					d3.select(this)
+						.transition()
+						.duration(250)
+						.attr("fill", function(d) {
+							if (s=="prost.csv"){
+								return "rgb(0, 0, " + d/7 + ")";
+							}
+							else if (s=="vehicle.csv"){
+								return "rgb("+d/35+", 0, 0 )";
+							}
+							else{
+								return "rgb(0,"+d/4+",0)";
+							}});
+	  
+					tooltip.transition()
+							.duration(500)
+							.style("opacity", 0);
+				});
 					   
 					//Update X axis
 					svg.select(".x.axis")
