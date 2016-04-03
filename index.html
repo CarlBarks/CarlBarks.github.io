@@ -148,6 +148,7 @@
 			and all GPS points belonging to that centroid are colored in relation to it.<br>
 			<li>You can freely toggle between different numbers of K and see how the classification of incidents changes in different groups.</li>
 			<li>You can hover over every K button to preview the changes and click on it to activate that view.</li>
+			<li>You can hover over every district to highlight its area.</li>
 		</p>
 		<h3><b>Algorithm Implementation and Data Preparation:</b></h3>
 		<p>The <b>K Means</b> Algorithm was implemented in <b>Python</b> using the <b>sklearn</b> library.
@@ -753,7 +754,7 @@
 				   .attr("d", path)
 				   .style("stroke", "black")
 				   .style("stroke-width", "1")
-				   .style("fill", "#9ecae1")
+				   .attr("fill", "#9ecae1")
 				   .on('mouseover', function() {
 						// Add a hover effect
 						d3.select(this)
@@ -772,7 +773,6 @@
                 .enter()
                 .append("text")
                 .text(function(d){
-					console.log(d.properties.DISTRICT)
                     return d.properties.DISTRICT;
                 })
 				.attr("x", function(d){
@@ -926,7 +926,6 @@
 				
 					//See which button was hovered
 					hoverID = d3.select(this).attr("id");
-					console.log(ID+" " +hoverID);
 					if(hoverID!=ID){
 						//Decide which dataset to preview
 						if (hoverID == "k2") {
